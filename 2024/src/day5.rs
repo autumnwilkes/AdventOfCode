@@ -34,8 +34,6 @@ pub fn main() {
             return false;
         })
         .collect();
-    println!("{}", rules.len());
-    rules.iter().for_each(|(y, x)| println!("{}", x.len()));
     let fixed_updates: Vec<Vec<u32>> = invalid_updates
         .iter()
         .map(|update| {
@@ -58,20 +56,8 @@ pub fn main() {
 
             fixed
         })
-        /*        .filter(|update| {
-                   let mut past_pages = HashSet::new();
-                   for page in update {
-                       if !past_pages.is_disjoint(&rules.get(page).unwrap_or(&HashSet::new())) {
-                           return false;
-                       }
-                       past_pages.insert(page.clone());
-                   }
-                   return true;
-               })
-        */
         .collect();
 
-    println!("{}", invalid_updates.iter().map(|x| x.len()).sum::<usize>());
     println!(
         "{}",
         fixed_updates
@@ -79,13 +65,6 @@ pub fn main() {
             .map(|x| x.get(x.len() / 2).unwrap())
             .sum::<u32>()
     )
-    //    println!(
-    //        "{}",
-    //        valid_updates
-    //            .iter()
-    //            .map(|update| update.get(update.len() / 2).unwrap())
-    //            .sum::<usize>()
-    //    );
 }
 
 // fn bad_update_fix(update: &Vec<u32>, rules: &HashMap<u32, HashSet<u32>>) -> Vec<u32> {
