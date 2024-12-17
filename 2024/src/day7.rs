@@ -15,22 +15,17 @@ pub fn main() {
             )
         })
         .collect();
-    let mut count = 0;
-    concat(
-        parsed.get(3).unwrap().0,
-        parsed.get(3).unwrap().1.clone(),
-        0,
-        0,
-    );
-    for (target, values) in parsed {
-        if mult(target, values.clone(), 1, 0)
-            || add(target, values.clone(), 0, 0)
-            || concat(target, values.clone(), 0, 0)
-        {
-            count += target;
-        }
-    }
-    println!("{count}");
+    let mut sum = parsed
+        .iter()
+        .filter(|(target, values)| {
+            mult(*target, values.clone(), 1, 0)
+                || add(*target, values.clone(), 0, 0)
+                || concat(*target, values.clone(), 0, 0)
+        })
+        .map(|(target, values)| target)
+        .sum::<u64>();
+
+    println!("{sum}");
 }
 
 pub fn mult(target: u64, values: Vec<u64>, cur_sum: u64, index: usize) -> bool {
