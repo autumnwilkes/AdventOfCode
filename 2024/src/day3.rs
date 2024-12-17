@@ -3,7 +3,6 @@ use std::fs;
 pub fn main() {
     let buff = fs::read_to_string("./input/day3.txt").unwrap();
     let data: Vec<Vec<&str>> = buff
-        .trim()
         .split("do()")
         .map(|x| x.split("don't()").collect::<Vec<&str>>()[0])
         .flat_map(|x| x.split("mul(").collect::<Vec<&str>>())
