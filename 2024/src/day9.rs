@@ -22,7 +22,7 @@ impl File {
 
 pub fn main() {
     let buff = fs::read_to_string("./input/day9.txt").unwrap();
-    let parsed: Vec<File> = buff
+    let mut files: Vec<File> = buff
         .trim()
         .chars()
         .tuples()
@@ -34,26 +34,25 @@ pub fn main() {
         })
         .collect();
 
-    let mut count = parsed.len() - 1;
-    let mut reordered = parsed.clone();
-    let mut prev_val = parsed.get(parsed.len() - 1).unwrap().val + 1;
+    let mut count = files.len() - 1;
+    let mut prev_val = files.get(files.len() - 1).unwrap().val + 1;
 
     while count > 0 {
-        if reordered.get(count).unwrap().val != prev_val - 1 {
+        if files.get(count).unwrap().val != prev_val - 1 {
             count -= 1;
         } else {
-            let mut i = reordered.get_mut(count).unwrap().clone();
+            let mut i = files.get_mut(count).unwrap().clone();
             prev_val = i.val;
             for second_index in 0..count {
-                if i.len <= reordered.get(second_index).unwrap().trailing_free {
-                    reordered
+                if i.len <= files.get(second_index).unwrap().trailing_free {
+                    files
                         .get_mut(count - 1)
                         .unwrap()
                         .add_following(i.len + i.trailing_free);
-                    i.set_following(reordered.get(second_index).unwrap().trailing_free - i.len);
-                    reordered.get_mut(second_index).unwrap().set_following(0);
-                    reordered.remove(count);
-                    reordered.insert(second_index + 1, i.clone());
+                    i.set_following(files.get(second_index).unwrap().trailing_free - i.len);
+                    files.get_mut(second_index).unwrap().set_following(0);
+                    files.remove(count);
+                    files.insert(second_index + 1, i.clone());
                     break;
                 }
             }
@@ -63,7 +62,7 @@ pub fn main() {
     let mut index = 0;
     let mut sum = 0;
 
-    for a in reordered {
+    for a in files {
         sum += a.get_sum(index);
         index += a.len + a.trailing_free;
     }
